@@ -1,0 +1,32 @@
+name: Update opencode themes
+
+on:
+  push:
+    paths:
+      - templates/**
+      - .github/workflows/**
+  schedule:
+    - cron: "0 0 * * 6"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Base16 Builder Go
+        uses: tinted-theming/base16-builder-go@latest
+      - name: Commit & Push Changes
+        run: |
+          new_branch=update-themes-$(date +'%Y%m%d%s')
+          git checkout -b $new_branch
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git diff --quiet || (
+            git add themes
+            git commit -m "chore: update opencode themes"
+            git push -u origin $new_branch
+            gh pr create -B main --title 'Update opencode color themes' --body 'Created by Github action' -a "${{ github.repository_owner }}"
+          )
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
