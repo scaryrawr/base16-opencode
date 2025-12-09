@@ -9,10 +9,15 @@ To install all themes for opencode, simply clone this repository into your openc
 ```sh
 mkdir -p ~/.config/opencode
 cd ~/.config/opencode
-git clone https://github.com/scaryrawr/base16-opencode
+git clone https://github.com/scaryrawr/base16-opencode .
 ```
 
 Or, copy/symlink the `themes/*.json` files into `~/.config/opencode/themes`.
+
+```sh
+git clone https://github.com/scaryrawr/base16-opencode
+ln -s $PWD/base16-opencode/themes ~/.config/opencode/themes
+```
 
 ## Usage
 
